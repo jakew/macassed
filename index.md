@@ -1,37 +1,75 @@
-## Welcome to GitHub Pages
+---
+---
+## Mac-Assed Mac Apps
 
-You can use the [editor on GitHub](https://github.com/jakew/macassed/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+With the rise of cross platform frameworks (Electron being the biggest culprit),
+large companies are, more than ever, porting the same experience across all
+platforms. This website lists apps that think different.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## What is "Mac-Assed"
 
-### Markdown
+Brent Simmons described Mac-assed this way:
+>>>A few people have asked me, “What’s a Mac-assed Mac app?”
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+>>>Answer: it’s a phrase I stole from my friend Collin Donnell to describe Mac
+>>>apps that are unapologetically Mac apps. They’re platform-specific and
+>>>they’re not trying to wow us with all their custom not-Mac-like UI (which
+>>>often isn’t very accessible).
 
-```markdown
-Syntax highlighted code block
+A Mac-assed Mac app is an app that doesn't just run on macOS, but fits in. It
+uses the same design language the macOS expects. It uses the same components
+you're already familiar with. It works as you would expect anything on macOS to
+work.
 
-# Header 1
-## Header 2
-### Header 3
+### The Apps
 
-- Bulleted
-- List
+{% assign apps_by_type = site.apps | group_by: "type" %}
 
-1. Numbered
-2. List
+{% for type in apps_by_type %}
 
-**Bold** and _Italic_ and `Code` text
+## {{ type.name | capitalize }}
+                                
+{% for app in type.items %}
+<div>
 
-[Link](url) and ![Image](src)
-```
+{% if app.image != nil and app.image != '' %}
+<img src="{{ app.image | prepend: '/assets/images/' | prepend: site.baseurl }}"
+     style="width: 100%; max-width: 50pt; max-height: 50pt; float: left; margin-right: 5pt;"
+     alt="{{ app.name }}"
+     title="{{ app.name }}"
+/>
+{% endif %}
+<h3>{{ app.name }}</h3>
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+</div>
 
-### Jekyll Themes
+- [Homepage]({{ app.site_url }}) — [{{ app.price }}]({{ app.buy_url }})
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/jakew/macassed/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+{{ app.content | markdownify }}
 
-### Support or Contact
+{% endfor %}
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+{% endfor %}
+
+### Qualifications
+
+Clarifying the exact requirements is difficult as most people are not design
+experts. A good first step is to check if the application exists on other
+platforms. If it does, and it looks the same on each platform, it is **not** a
+Mac-assed Mac app.
+
+To be a true Mac-assed Mac app, the app has to be built using the provided Apple
+UI frameworks such as Carbon, Cocoa, or SwiftUI, and all of the features those
+UI frameworks provide in a macOS specific way, complying with Apple's
+own [Human Interface Guidelines for macOS](https://developer.apple.com/design/human-interface-guidelines/macos/overview/).
+
+A side benefit is, if macOS has a UI framework feature added, the app will often
+get the new feature without an update.
+
+### Contributing
+
+If you run a Mac-assed Mac app (or just know of one), please [make a pull
+request](). If you don't know how to do that, just make an
+[issue](https://github.com/jakew/macassed/issues/new/choose).
+
+
